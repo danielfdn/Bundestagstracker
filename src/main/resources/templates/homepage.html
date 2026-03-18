@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>monkey</title>
+</head>
+<body>
+        <!-- hier Verlinkung auf einzelne poll Objekte einfügen bzw. funktionsfähig machen -->
+<li th:each="poll : ${polls}" th:object="${poll}">
+    <a th:href="@{/polls/{id}(id=${poll.id})}"><span th:text="*{id}"></span></a>
+    <span th:text="*{label}"></span>
+    <span th:text="*{accepted}"></span>
+    <span th:text="*{date}"></span>
+</li>
+</body>
+</html>

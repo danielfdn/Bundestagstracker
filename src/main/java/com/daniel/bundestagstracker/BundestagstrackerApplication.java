@@ -9,5 +9,7 @@ public class BundestagstrackerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BundestagstrackerApplication.class, args);
+
+
     }
 }

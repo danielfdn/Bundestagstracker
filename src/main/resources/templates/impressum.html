@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>monkey</title>
+</head>
+<body>
+
+<li th:each="vote : ${votes}" th:object="${vote}">
+    <span th:text="*{id}"></span>
+    <span th:text="*{vote}"></span>
+    <span th:text="*{poll}"></span>
+    <span th:text="*{fraction}"></span>
+</li>
+</body>
+</html>
