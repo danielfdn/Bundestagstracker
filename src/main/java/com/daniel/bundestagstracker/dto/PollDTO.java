@@ -12,5 +12,4 @@ public class PollDTO {
     private Boolean field_accepted;
     private Date date;
 
-
 }

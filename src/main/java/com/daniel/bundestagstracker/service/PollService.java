@@ -16,7 +16,6 @@ public class PollService {
         this.pollRepo = pollRepo;
     }
 
-    // TODO: getPoll() method for single polls
 
     public List<Poll> getPolls() {
         return pollRepo.findAll();

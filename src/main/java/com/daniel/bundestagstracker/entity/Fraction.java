@@ -1,8 +1,9 @@
 package com.daniel.bundestagstracker.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,5 +14,10 @@ import lombok.*;
 public class Fraction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(unique = true) //Datenbank lässt keine doppelte Speicherung zu
+    String partyName;
 }
+
