@@ -19,7 +19,7 @@ public class Vote {
     private String vote;
 
     @ManyToOne //
-    @JoinColumn(name = "poll_id") // Reference on Poll Table (FK)
+    @JoinColumn(name = "pollId") // Reference on Poll Table (FK)
     private Poll poll;
 
     @ManyToOne

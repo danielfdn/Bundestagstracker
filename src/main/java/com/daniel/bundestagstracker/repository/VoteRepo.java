@@ -10,4 +10,11 @@ import java.util.List;
 @Repository
 public interface VoteRepo extends JpaRepository<Vote, Long> { //Spring Data JPA for defining repo-Interfaces & query-Methods
     List<Vote> id(Long id);
+
+    List<Vote> findByVote(String vote);
+    List<Vote> findByPoll_Id(Long pollId);
+
+    Long countByPoll_Id(Long pollId);
+    Long countByPoll_IdAndVote(Long pollId, String vote);
+
 }

@@ -1,8 +1,7 @@
 package com.daniel.bundestagstracker.service;
 
-import com.daniel.bundestagstracker.dto.FractionDTO;
-import com.daniel.bundestagstracker.dto.VoteDTO;
-import com.daniel.bundestagstracker.dto.VoteResponse;
+import com.daniel.bundestagstracker.dto.vote.VoteDTO;
+import com.daniel.bundestagstracker.dto.vote.VoteResponse;
 import com.daniel.bundestagstracker.entity.Fraction;
 import com.daniel.bundestagstracker.entity.Poll;
 import com.daniel.bundestagstracker.entity.Vote;

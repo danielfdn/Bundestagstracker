@@ -1,0 +1,80 @@
+package com.daniel.bundestagstracker.service;
+
+import com.daniel.bundestagstracker.entity.Fraction;
+import com.daniel.bundestagstracker.entity.PollResult;
+import com.daniel.bundestagstracker.entity.Vote;
+import com.daniel.bundestagstracker.repository.FractionRepo;
+import com.daniel.bundestagstracker.repository.VoteRepo;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class PollAnalysisService {
+    private PollResult pollResult;
+    private VoteRepo voteRepo;
+    private FractionRepo fractionRepo;
+
+    public PollAnalysisService(PollResult pollResult, VoteRepo voteRepo, FractionRepo fractionRepo) {
+        this.pollResult = pollResult;
+        this.voteRepo = voteRepo;
+        this.fractionRepo = fractionRepo;
+    }
+
+    public Map<String, Long> overallVoteResults(Long pollId) {
+
+        Map<String, Long> result = new HashMap<>();
+
+       result.put("yes", voteRepo.countByPoll_IdAndVote(pollId, "yes")); //Spring Data JPA automatically creates Queries
+       result.put("no", voteRepo.countByPoll_IdAndVote(pollId, "no"));
+       result.put("no_show", voteRepo.countByPoll_IdAndVote(pollId, "no_show"));
+
+       return result;
+    }
+
+    public Map<String, Double> overallPercentageVoteResults(Long pollId) {
+        long totalVotes = voteRepo.countByPoll_Id(pollId);
+
+        if(totalVotes == 0){
+            return Map.of();
+        }
+
+        Map<String, Long> results = overallVoteResults(pollId);
+        Map<String, Double> percentageResults = results.entrySet().stream()
+                .collect(Collectors.toMap(
+                entry -> entry.getKey(),
+                entry -> Math.round(((double)entry.getValue() / totalVotes * 100) * 100) / 100.0));
+        return percentageResults;
+    }
+
+    public Map<Fraction, Map<String, Long>> detailedVoteResults(Long pollId) {
+
+        List<Fraction> fractions = fractionRepo.findAll();
+        Map<Fraction, Map<String, Long>> detailedResult = new HashMap<>();
+
+        for (Fraction fraction : fractions) {
+            Map<String, Long> voteMap = new HashMap<>();
+            voteMap.put("yes", 0L);
+            voteMap.put("no", 0L);
+            voteMap.put("no_show", 0L);
+
+            detailedResult.put(fraction, voteMap);
+        }
+
+        List<Vote> votes = voteRepo.findByPoll_Id(pollId);
+
+        for(Vote vote : votes) {
+            Fraction fraction = vote.getFraction();
+            String voteType = vote.getVote();
+
+            Map<String, Long> voteMap = detailedResult.get(fraction);
+
+            voteMap.put(voteType, voteMap.get(voteType) + 1);
+        }
+
+        return detailedResult;
+    }
+
+}
+

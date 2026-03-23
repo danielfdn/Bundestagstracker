@@ -3,7 +3,6 @@ package com.daniel.bundestagstracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter

@@ -3,6 +3,7 @@ package com.daniel.bundestagstracker.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import lombok.*;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ public class Poll {
     private Long id;
     private String label;
     private Boolean accepted;
-    private Date date;
 
+    @JoinColumn(name="field_poll_date")
+    private Date date;
 }

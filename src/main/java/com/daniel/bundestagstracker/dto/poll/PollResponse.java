@@ -1,4 +1,4 @@
-package com.daniel.bundestagstracker.dto;
+package com.daniel.bundestagstracker.dto.poll;
 
 import java.util.List;
 

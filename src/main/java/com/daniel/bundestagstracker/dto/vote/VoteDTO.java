@@ -1,6 +1,5 @@
-package com.daniel.bundestagstracker.dto;
-import com.daniel.bundestagstracker.entity.Fraction;
-import jakarta.persistence.JoinColumn;
+package com.daniel.bundestagstracker.dto.vote;
+import com.daniel.bundestagstracker.dto.fraction.FractionDTO;
 import lombok.Data;
 
 @Data

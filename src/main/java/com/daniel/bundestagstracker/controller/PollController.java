@@ -1,9 +1,6 @@
 package com.daniel.bundestagstracker.controller;
 
-import com.daniel.bundestagstracker.service.PollImportService;
-import com.daniel.bundestagstracker.service.PollService;
-import com.daniel.bundestagstracker.service.VoteImportService;
-import com.daniel.bundestagstracker.service.VoteService;
+import com.daniel.bundestagstracker.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +13,15 @@ public class PollController {
     private final PollImportService pollImportService;
     private final VoteImportService voteImportService;
     private final VoteService voteService;
+    private final PollAnalysisService pollAnalysisService;
 
-   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, VoteService voteService) {
+   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, VoteService voteService, PollAnalysisService pollAnalysisService)
+   {
         this.pollService = pollService;
         this.pollImportService = pollImportService;
         this.voteImportService = voteImportService;
         this.voteService = voteService;
+        this.pollAnalysisService = pollAnalysisService;
    }
 
 @GetMapping("/polls")
@@ -37,4 +37,12 @@ public class PollController {
        model.addAttribute("votes", voteService.getVotes());
        return "impressum";
     }
+
+    @GetMapping("/polls2/{id}")
+    public String testing3(Model model, @PathVariable Long id) {
+       model.addAttribute("detailedVotes",pollAnalysisService.detailedVoteResults(id));
+       return "impressum2"; //TODO: figure out how to implement map with thymeleaf in html file
+   }
+
+
 }

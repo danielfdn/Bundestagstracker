@@ -1,7 +1,7 @@
 package com.daniel.bundestagstracker.service;
 
-import com.daniel.bundestagstracker.dto.PollDTO;
-import com.daniel.bundestagstracker.dto.PollResponse;
+import com.daniel.bundestagstracker.dto.poll.PollDTO;
+import com.daniel.bundestagstracker.dto.poll.PollResponse;
 import com.daniel.bundestagstracker.entity.Poll;
 import com.daniel.bundestagstracker.repository.PollRepo;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class PollImportService {
                         dto.getId(),
                         dto.getLabel(),
                         dto.getField_accepted(),
-                        dto.getDate()
+                        dto.getField_poll_date()
                 );
                 pollRepo.save(poll); //saving objects to DB
             }

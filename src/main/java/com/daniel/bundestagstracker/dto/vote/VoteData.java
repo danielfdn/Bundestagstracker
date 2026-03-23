@@ -1,4 +1,4 @@
-package com.daniel.bundestagstracker.dto;
+package com.daniel.bundestagstracker.dto.vote;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

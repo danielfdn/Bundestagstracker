@@ -1,6 +1,6 @@
 package com.daniel.bundestagstracker.configuration;
 
-import com.daniel.bundestagstracker.dto.PollDTO;
+import com.daniel.bundestagstracker.dto.poll.PollDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
