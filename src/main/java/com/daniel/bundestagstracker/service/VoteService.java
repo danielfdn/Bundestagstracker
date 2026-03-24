@@ -17,4 +17,8 @@ public class VoteService {
     public List<Vote> getVotes() {
         return voteRepo.findAll();
     }
+
+    public List<Vote> getVotesByPollId(Long pollId) {
+        return voteRepo.findByPoll_Id(pollId);
+    }
 }

@@ -7,12 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>monkey</title>
 </head>
-<body>
 
-<li th:each="vote : ${votes}" th:object="${vote}">
-    <span th:text="*{id}"></span>
-    <span th:text="*{vote}"></span>
-    <span th:text="*{poll}"></span>
-</li>
-</body>
+<bocdy>
+
+<h1>Detailed Votes</h1>
+    <div th:each="entry : ${detailedVotes}">
+        <h3 th:text="${entry.key.partyName}"></h3>
+
+        <ul>
+            <li th:each="voteEntry : ${entry.value}">
+                <span th:text="${voteEntry.key}"></span>
+                <span th:text="${voteEntry.value}"></span>
+            </li>
+        </ul>
+
+    </div>
+
+<h1>Overall Votes</h1>
+
+<ul>
+    <li th:each="entry : ${overallVotes}">
+        <span th:text="${entry.key}"></span>
+        <span th:text="${entry.value}"></span>
+    </li>
+</ul>
+
+</bocdy>
 </html>

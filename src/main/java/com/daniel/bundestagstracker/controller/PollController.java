@@ -34,13 +34,14 @@ public class PollController {
     @GetMapping("/polls/{id}")
     public String testing2(Model model, @PathVariable Long id) {
        voteImportService.importVotes(id);
-       model.addAttribute("votes", voteService.getVotes());
+       model.addAttribute("votes", voteService.getVotesByPollId(id));
        return "impressum";
     }
 
     @GetMapping("/polls2/{id}")
     public String testing3(Model model, @PathVariable Long id) {
-       model.addAttribute("detailedVotes",pollAnalysisService.detailedVoteResults(id));
+       model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
+       model.addAttribute("overallVotes", pollAnalysisService.overallVoteResults(id));
        return "impressum2"; //TODO: figure out how to implement map with thymeleaf in html file
    }
 

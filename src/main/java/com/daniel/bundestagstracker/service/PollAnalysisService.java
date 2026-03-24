@@ -5,19 +5,19 @@ import com.daniel.bundestagstracker.entity.PollResult;
 import com.daniel.bundestagstracker.entity.Vote;
 import com.daniel.bundestagstracker.repository.FractionRepo;
 import com.daniel.bundestagstracker.repository.VoteRepo;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class PollAnalysisService {
-    private PollResult pollResult;
     private VoteRepo voteRepo;
     private FractionRepo fractionRepo;
 
-    public PollAnalysisService(PollResult pollResult, VoteRepo voteRepo, FractionRepo fractionRepo) {
-        this.pollResult = pollResult;
+    public PollAnalysisService(VoteRepo voteRepo, FractionRepo fractionRepo) {
         this.voteRepo = voteRepo;
         this.fractionRepo = fractionRepo;
     }
