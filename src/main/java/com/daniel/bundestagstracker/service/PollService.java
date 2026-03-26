@@ -16,8 +16,11 @@ public class PollService {
         this.pollRepo = pollRepo;
     }
 
-
     public List<Poll> getPolls() {
         return pollRepo.findAll();
         }
+
+        public Poll getPollById(Long id) {
+        return pollRepo.findById(id).orElse(null);
+    }
 }

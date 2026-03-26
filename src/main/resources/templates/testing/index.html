@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header">
+    <h1 class="centering">Bundestagstracker</h1>
+    <h2 class="centering">Abstimmungen auf einen Blick</h2>
+    </div>
+    <img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo">
+
+    <hr>
+
+    <div class="centering">
+        <h2 th:text="${poll.label}"></h2>
+        <h4 th:text="${poll.date}"></h4>
+        <h4 th:text="${poll.accepted} ? 'angenommen' : 'abgelehnt'"><strong></strong></h4>
+    </div>
+
+        <div id="chart-container">
+            <canvas id="mainChart"> </canvas>
+        </div>
+
+    <div class="subchartContainer" id="subchartContainer" >
+        <canvas id="subChart"></canvas>
+    </div>
+
+    <hr>
+
+   <div class="centering">
+    <button class="footer-button">info</button>
+    <button class="footer-button">about</button>
+    <button class="footer-button">sources</button>
+   </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js">
+</script>
+<script>
+
+    const data = { //TODO <--
+        labels:  ['Ja', 'Nein', 'Enthaltungen' ],
+        datasets: [{
+            data: [100, 80, 20],
+            label: 'Stimmen',
+       backgroundColor: [
+            'rgba(15,220,8,0.6)',
+            'rgba(128,0,32,0.9)',
+            'rgba(120,120,120,0.8)'],
+       borderColor: '#ffffff'
+        }]
+    }
+
+
+
+    const partyData = { // <-- test data -->//
+        Ja: {
+            labels: ['CDU', 'SPD'],
+            data: [80, 20],
+            colors: ['#000000', '#E3000F']},
+
+        Nein: {
+        labels: ['AfD', 'Linke'],
+        data: [40, 20],
+        colors: ['#009EE0', '#BE3075']},
+
+        Enthaltungen: {
+        labels:['Gruene', 'SPD'],
+        data: [10, 10],
+        colors: ['#4CAF50', '#E3000F']
+        }
+    }
+
+    const hoverPlugin = {
+        id: 'hoverPlugin',
+        afterEvent(chart, args) {
+            const event = args.event;
+            const elements = chart.getElementsAtEventForMode(
+                event,
+                'nearest',
+                { intersect: true},
+                false
+            );
+
+            const container = document.getElementById('subchartContainer');
+            const body = document.body;
+
+            if (elements.length > 0) {
+                const index = elements[0].index;
+                const label = chart.data.labels[index];
+
+                updateSubChart(label);
+                container.classList.add('visible');
+                body.classList.add('focus-active');
+            } else {
+                container.classList.remove('visible');
+                body.classList.remove('focus-active');
+            }
+        }
+    };
+
+
+    const ctx = document.querySelector('#mainChart');
+    const subCtx = document.querySelector('#subChart')
+
+    const mainChart = new Chart(ctx, {
+            type: 'doughnut',
+            data,
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 50
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                },
+                hoverOffset: 15
+            },
+            plugins: [hoverPlugin]
+        }
+
+    );
+
+    const subChart = new Chart(
+        subCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }]
+            },
+            options:{
+                animation: {
+                    duration: 600,
+                    easing: 'easeOutCubic'
+                },
+                hoverOffSet: 25,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        function updateSubChart(label) {
+            const data = partyData[label];
+
+            subChart.data.labels = data.labels;
+            subChart.data.datasets[0].data = data.data;
+            subChart.data.datasets[0].backgroundColor = data.colors;
+
+            subChart.update();
+            console.log("Aktiv");
+        }
+</script>
+</body>
+</html >

@@ -13,7 +13,7 @@
     <a th:href="@{/polls/{id}(id=${poll.id})}"><span th:text="*{id}"></span></a>
     <span th:text="*{label}"></span>
     <span th:text="*{accepted}"></span>
-    <span th:text="*{date}"></span>
+    <a th:href="@{/chart/{id}(id=${poll.id})}"><span th:text="*{date}"></span></a>
 </li>
 </body>
 </html>
