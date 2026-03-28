@@ -6,6 +6,8 @@ import com.daniel.bundestagstracker.entity.Poll;
 import com.daniel.bundestagstracker.repository.PollRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service //calls poll API and imports them into database
 public class PollImportService {
 
@@ -22,6 +24,7 @@ public class PollImportService {
 
         PollResponse response = apiService.fetch(url, PollResponse.class); //API calling via restTemplate - saving JSON in Java Objects
             for(PollDTO dto : response.getData()) {
+
                 Poll poll = new Poll(
                         dto.getId(),
                         dto.getLabel(),

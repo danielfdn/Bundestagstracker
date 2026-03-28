@@ -1,7 +1,5 @@
 package com.daniel.bundestagstracker.service;
 
-import com.daniel.bundestagstracker.entity.Fraction;
-import com.daniel.bundestagstracker.entity.PollResult;
 import com.daniel.bundestagstracker.entity.Vote;
 import com.daniel.bundestagstracker.repository.FractionRepo;
 import com.daniel.bundestagstracker.repository.VoteRepo;
@@ -48,29 +46,25 @@ public class PollAnalysisService {
         return percentageResults;
     }
 
-    public Map<Fraction, Map<String, Long>> detailedVoteResults(Long pollId) {
+    public Map<String, Map<String, Long>> detailedVoteResults(Long pollId) {
 
-        List<Fraction> fractions = fractionRepo.findAll();
-        Map<Fraction, Map<String, Long>> detailedResult = new HashMap<>();
+        Map<String, Map<String, Long>> detailedResult = new HashMap<>();
 
-        for (Fraction fraction : fractions) {
-            Map<String, Long> voteMap = new HashMap<>();
-            voteMap.put("yes", 0L);
-            voteMap.put("no", 0L);
-            voteMap.put("no_show", 0L);
-
-            detailedResult.put(fraction, voteMap);
-        }
+       detailedResult.put("yes", new HashMap<>());
+       detailedResult.put("no", new HashMap<>());
+       detailedResult.put("no_show", new HashMap<>());
 
         List<Vote> votes = voteRepo.findByPoll_Id(pollId);
 
         for(Vote vote : votes) {
-            Fraction fraction = vote.getFraction();
             String voteType = vote.getVote();
+            String partyName = vote.getFraction().getPartyName();
 
-            Map<String, Long> voteMap = detailedResult.get(fraction);
+            Map<String, Long> voteMap = detailedResult.get(voteType);
+                if(voteMap == null) continue;
 
-            voteMap.put(voteType, voteMap.get(voteType) + 1);
+            voteMap.put(partyName,
+                    voteMap.getOrDefault(partyName, 0L) + 1);
         }
 
         return detailedResult;

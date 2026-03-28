@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" th:href="@{/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
@@ -19,12 +19,13 @@
     </div>
     <img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo">
 
-    <hr>
+
+   <button class="footer-button"> % / absolute</button> <!-- TODO: make button interactive-->
 
     <div class="centering">
         <h2 th:text="${poll.label}"></h2>
         <h4 th:text="${poll.date}"></h4>
-        <h4 th:text="${poll.accepted} ? 'angenommen' : 'abgelehnt'"><strong></strong></h4>
+        <h4 th:text="${poll.accepted} ? ' Status: angenommen' : 'Status: abgelehnt'"><strong></strong></h4>
     </div>
 
         <div id="chart-container">
@@ -44,135 +45,131 @@
    </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js">
-</script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script th:inline="javascript">
 
-    const data = { //TODO <--
-        labels:  ['Ja', 'Nein', 'Enthaltungen' ],
-        datasets: [{
-            data: [100, 80, 20],
-            label: 'Stimmen',
-       backgroundColor: [
-            'rgba(15,220,8,0.6)',
-            'rgba(128,0,32,0.9)',
-            'rgba(120,120,120,0.8)'],
-       borderColor: '#ffffff'
-        }]
-    }
+        const detailedVotes = /*[[${detailedVotes}]]*/ {};
+        const overallVotes = /*[[${overallVotes}]]*/ {};
 
+        let voteResults = [overallVotes.yes, overallVotes.no, overallVotes.no_show]; //TODO: set percent/absolute feature here
 
+        // zentrale Farbdefinition
+        const colorMap = {
+            'CDU/CSU': '#000000',
+            'SPD': '#E3000F',
+            'AFD': '#009EE0',
+            'BÜNDNIS 90/DIE GRÜNEN': '#4CAF50',
+            'DIE LINKE': '#BE3075',
+            'FRAKTIONSLOS': '#FFA500'
+        };
 
-    const partyData = { // <-- test data -->//
-        Ja: {
-            labels: ['CDU', 'SPD'],
-            data: [80, 20],
-            colors: ['#000000', '#E3000F']},
-
-        Nein: {
-        labels: ['AfD', 'Linke'],
-        data: [40, 20],
-        colors: ['#009EE0', '#BE3075']},
-
-        Enthaltungen: {
-        labels:['Gruene', 'SPD'],
-        data: [10, 10],
-        colors: ['#4CAF50', '#E3000F']
-        }
-    }
-
-    const hoverPlugin = {
-        id: 'hoverPlugin',
-        afterEvent(chart, args) {
-            const event = args.event;
-            const elements = chart.getElementsAtEventForMode(
-                event,
-                'nearest',
-                { intersect: true},
-                false
-            );
-
-            const container = document.getElementById('subchartContainer');
-            const body = document.body;
-
-            if (elements.length > 0) {
-                const index = elements[0].index;
-                const label = chart.data.labels[index];
-
-                updateSubChart(label);
-                container.classList.add('visible');
-                body.classList.add('focus-active');
-            } else {
-                container.classList.remove('visible');
-                body.classList.remove('focus-active');
-            }
-        }
-    };
-
-
-    const ctx = document.querySelector('#mainChart');
-    const subCtx = document.querySelector('#subChart')
-
-    const mainChart = new Chart(ctx, {
+        // Main Chart
+        const mainChart = new Chart(document.querySelector('#mainChart'), {
             type: 'doughnut',
-            data,
+            data: {
+                labels: [`Ja (${voteResults[0]})` , `Nein (${voteResults[1]})` ,`Nicht abgestimmt (${voteResults[2]})`],
+                datasets: [{
+                    label: 'Stimmen',
+                    data: [
+                        voteResults[0],
+                        voteResults[1],
+                        voteResults[2],
+                    ],
+                    backgroundColor: [
+                        'rgba(15,220,8,0.6)',
+                        'rgba(128,0,32,0.9)',
+                        'rgba(120,120,120,0.8)'
+                    ],
+                    borderColor: '#ffffff'
+                }]
+            },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                hoverOffset: 15,
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: {
-                            padding: 50
-                        }
+                        labels: { padding: 50 }
                     }
-                },
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: {
-                    animateScale: true,
-                    animateRotate: true,
-                },
-                hoverOffset: 15
+                }
             },
-            plugins: [hoverPlugin]
-        }
+            plugins: [{
+                id: 'hoverPlugin',
+                afterEvent(chart, args) {
+                    const elements = chart.getElementsAtEventForMode(
+                        args.event,
+                        'nearest',
+                        { intersect: true },
+                        false
+                    );
 
-    );
+                    const container = document.getElementById('subchartContainer');
+                    const body = document.body;
 
-    const subChart = new Chart(
-        subCtx, {
-            type: 'doughnut',
+                    if (elements.length) {
+                        const label = chart.data.labels[elements[0].index];
+                        updateSubChart(label);
+                        container.classList.add('visible');
+                        body.classList.add('focus-active');
+                    } else {
+                        container.classList.remove('visible');
+                        body.classList.remove('focus-active');
+                    }
+                }
+            }]
+        });
+
+        // Sub Chart
+        const subChart = new Chart(document.querySelector('#subChart'), {
+            type: 'bar',
             data: {
                 labels: [],
                 datasets: [{
+                    label: 'Stimmen der einzelnen Fraktionen',
                     data: [],
                     backgroundColor: []
                 }]
             },
-            options:{
+            options: {
+                responsive: true,
+                hoverOffset: 25,
                 animation: {
                     duration: 600,
                     easing: 'easeOutCubic'
                 },
-                hoverOffSet: 25,
-                responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'bottom'
+                    tooltip: {
+                        callbacks: {
+                            title: () => '',
+                            label: ctx => 'Stimmen: ' + ctx.raw
+                        }
                     }
                 }
             }
         });
 
         function updateSubChart(label) {
-            const data = partyData[label];
 
-            subChart.data.labels = data.labels;
-            subChart.data.datasets[0].data = data.data;
-            subChart.data.datasets[0].backgroundColor = data.colors;
+            const key = {
+                 [mainChart.data.labels[0]] : 'yes',
+                 [mainChart.data.labels[1]] : 'no',
+                 [mainChart.data.labels[2]] : 'no_show',
+            }[label];
+
+            const voteData = detailedVotes[key];
+            if (!voteData) return;
+
+            const labels = Object.keys(voteData);
+
+            subChart.data.labels = labels;
+            subChart.data.datasets[0].data = Object.values(voteData);
+            subChart.data.datasets[0].backgroundColor =
+                labels.map(p => colorMap[p] || '#888888');
 
             subChart.update();
-            console.log("Aktiv");
         }
-</script>
+
+    </script>
 </body>
-</html >
+</html>

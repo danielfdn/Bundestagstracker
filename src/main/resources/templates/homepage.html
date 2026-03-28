@@ -10,10 +10,10 @@
 <body>
         <!-- hier Verlinkung auf einzelne poll Objekte einfügen bzw. funktionsfähig machen -->
 <li th:each="poll : ${polls}" th:object="${poll}">
-    <a th:href="@{/polls/{id}(id=${poll.id})}"><span th:text="*{id}"></span></a>
+    <a th:href="@{/chart/{id}(id=${poll.id})}"><span th:text="*{id}"></span></a>
+    <span th:text="*{date}"></span>
     <span th:text="*{label}"></span>
     <span th:text="*{accepted}"></span>
-    <a th:href="@{/chart/{id}(id=${poll.id})}"><span th:text="*{date}"></span></a>
 </li>
 </body>
 </html>

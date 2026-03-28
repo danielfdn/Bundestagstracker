@@ -12,6 +12,4 @@ public interface FractionRepo extends JpaRepository<Fraction, Long> {
 
     List<Fraction> findAll();
 
-
-
 }

@@ -39,10 +39,10 @@ public class PollController {
     }
 
     @GetMapping("/polls2/{id}")
-    public String testing3(Model model, @PathVariable Long id) {
+    public String testing3(Model model, @PathVariable Long id) { //TODO: cut out testing endpoint due to unnecessary redundance
        model.addAttribute("overallVotes", pollAnalysisService.overallVoteResults(id));
        model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
-       return "impressum2"; //TODO: figure out how to implement map with thymeleaf in html file
+       return "impressum2";
    }
 
    @GetMapping("/chart/{id}")
@@ -50,7 +50,9 @@ public class PollController {
        voteImportService.importVotes(id);
        model.addAttribute("poll", pollService.getPollById(id));
        model.addAttribute("overallVotes",  pollAnalysisService.overallVoteResults(id));
-       model.addAttribute("detailedVotes", pollAnalysisService.overallPercentageVoteResults(id));
+       model.addAttribute("overallPercentageVotes", pollAnalysisService.overallPercentageVoteResults(id));
+
+       model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
        return "testing/index";
    }
 
