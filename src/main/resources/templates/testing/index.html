@@ -10,138 +10,148 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
 </head>
 <body>
-
     <div class="header">
     <h1 class="centering">Bundestagstracker</h1>
     <h2 class="centering">Abstimmungen auf einen Blick</h2>
     </div>
-    <img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo">
+    <a th:href="@{/polls}"><img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo"></a>
+<hr>
 
+<div th:style="${poll.accepted} ?'background-color: darkseagreen' : 'background-color: lightcoral'"  class="centering full-width">
+    <h2 th:text="${poll.label}"></h2>
+    <h4 th:text="${poll.date}"></h4>
+    <strong><h4 th:text="${poll.accepted} ? ' Status: angenommen' : 'Status: abgelehnt'"></h4></strong>
+</div>
 
-   <button class="footer-button"> % / absolute</button> <!-- TODO: make button interactive-->
+<div class="content-row">
+<div class="info-container">
+    <div><h3 style="font-family: 'Montserrat', sans-serif">Informationen</h3></div>
+   <div class="info-content" th:utext="${poll.info}"></div>
+</div>
 
-    <div class="centering">
-        <h2 th:text="${poll.label}"></h2>
-        <h4 th:text="${poll.date}"></h4>
-        <h4 th:text="${poll.accepted} ? ' Status: angenommen' : 'Status: abgelehnt'"><strong></strong></h4>
+    <div id="chart-container">
+        <canvas id="mainChart"> </canvas>
     </div>
 
-        <div id="chart-container">
-            <canvas id="mainChart"> </canvas>
-        </div>
+<div class="subchartContainer" id="subchartContainer" >
+    <canvas id="subChart"></canvas>
+</div>
+</div>
 
-    <div class="subchartContainer" id="subchartContainer" >
-        <canvas id="subChart"></canvas>
-    </div>
+<hr>
 
-    <hr>
+<div class="centering">
+<button class="footer-button">info</button>
+<button class="footer-button">about</button>
+<button class="footer-button">sources</button>
 
-   <div class="centering">
-    <button class="footer-button">info</button>
-    <button class="footer-button">about</button>
-    <button class="footer-button">sources</button>
-   </div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
-    <script th:inline="javascript">
+<script th:inline="javascript">
 
-        const detailedVotes = /*[[${detailedVotes}]]*/ {};
-        const overallVotes = /*[[${overallVotes}]]*/ {};
 
-        let voteResults = [overallVotes.yes, overallVotes.no, overallVotes.no_show]; //TODO: set percent/absolute feature here
+    const detailedVotes = /*[[${detailedVotes}]]*/ {};
+    const overallVotes = /*[[${overallVotes}]]*/ {};
 
-        // zentrale Farbdefinition
-        const colorMap = {
-            'CDU/CSU': '#000000',
-            'SPD': '#E3000F',
-            'AFD': '#009EE0',
-            'BÜNDNIS 90/DIE GRÜNEN': '#4CAF50',
-            'DIE LINKE': '#BE3075',
-            'FRAKTIONSLOS': '#FFA500'
-        };
+    const totalVotes = overallVotes.yes + overallVotes.no + overallVotes.no_show;
 
-        // Main Chart
-        const mainChart = new Chart(document.querySelector('#mainChart'), {
-            type: 'doughnut',
-            data: {
-                labels: [`Ja (${voteResults[0]})` , `Nein (${voteResults[1]})` ,`Nicht abgestimmt (${voteResults[2]})`],
-                datasets: [{
-                    label: 'Stimmen',
-                    data: [
-                        voteResults[0],
-                        voteResults[1],
-                        voteResults[2],
-                    ],
-                    backgroundColor: [
-                        'rgba(15,220,8,0.6)',
-                        'rgba(128,0,32,0.9)',
-                        'rgba(120,120,120,0.8)'
-                    ],
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                hoverOffset: 15,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { padding: 50 }
-                    }
-                }
-            },
-            plugins: [{
-                id: 'hoverPlugin',
-                afterEvent(chart, args) {
-                    const elements = chart.getElementsAtEventForMode(
-                        args.event,
-                        'nearest',
-                        { intersect: true },
-                        false
-                    );
+    let voteResults = [overallVotes.yes, overallVotes.no, overallVotes.no_show];
 
-                    const container = document.getElementById('subchartContainer');
-                    const body = document.body;
 
-                    if (elements.length) {
-                        const label = chart.data.labels[elements[0].index];
-                        updateSubChart(label);
-                        container.classList.add('visible');
-                        body.classList.add('focus-active');
-                    } else {
-                        container.classList.remove('visible');
-                        body.classList.remove('focus-active');
-                    }
-                }
+    //central color definition
+    const colorMap = {
+        'CDU/CSU': '#000000',
+        'SPD': '#E3000F',
+        'AFD': '#009EE0',
+        'BÜNDNIS 90/DIE GRÜNEN': '#4CAF50',
+        'DIE LINKE': '#BE3075',
+        'FRAKTIONSLOS': '#FFA500'
+    };
+
+    // Main Chart
+    const mainChart = new Chart(document.querySelector('#mainChart'), {
+        type: 'doughnut',
+        data: {
+            labels: [`Ja (${voteResults[0]})` , `Nein (${voteResults[1]})` ,`Nicht abgestimmt (${voteResults[2]})`],
+            datasets: [{
+                label: 'Stimmen',
+                data: [
+                    voteResults[0],
+                    voteResults[1],
+                    voteResults[2],
+                ],
+                backgroundColor: [
+                    'rgba(15,220,8,0.6)',
+                    'rgba(128,0,32,0.9)',
+                    'rgba(120,120,120,0.8)'
+                ],
+                borderColor: '#ffffff'
             }]
-        });
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            hoverOffset: 15,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 50 }
+                }
+            }
+        },
+        plugins: [{
+            id: 'hoverPlugin',
+            afterEvent(chart, args) {
+                const elements = chart.getElementsAtEventForMode(
+                    args.event,
+                    'nearest',
+                    { intersect: true },
+                    false
+                );
 
-        // Sub Chart
-        const subChart = new Chart(document.querySelector('#subChart'), {
-            type: 'bar',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Stimmen der einzelnen Fraktionen',
-                    data: [],
-                    backgroundColor: []
-                }]
+                const container = document.getElementById('subchartContainer');
+                const body = document.body;
+
+                if (elements.length) {
+                    const label = chart.data.labels[elements[0].index];
+                    updateSubChart(label);
+                    container.classList.add('visible');
+                    body.classList.add('focus-active');
+                } else {
+                    container.classList.remove('visible');
+                    body.classList.remove('focus-active');
+                }
+            }
+        }]
+    });
+
+    // Sub Chart
+    const subChart = new Chart(document.querySelector('#subChart'), {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Stimmen der einzelnen Fraktionen',
+                data: [],
+                backgroundColor: []
+            }]
+        },
+        options: {
+            responsive: true,
+            hoverOffset: 25,
+            animation: {
+                duration: 600,
+                easing: 'easeOutCubic'
             },
-            options: {
-                responsive: true,
-                hoverOffset: 25,
-                animation: {
-                    duration: 600,
-                    easing: 'easeOutCubic'
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            title: () => '',
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: () => '',
                             label: ctx => 'Stimmen: ' + ctx.raw
                         }
                     }

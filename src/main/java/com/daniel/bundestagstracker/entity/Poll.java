@@ -1,6 +1,7 @@
 package com.daniel.bundestagstracker.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,4 +24,8 @@ public class Poll {
 
     @JoinColumn(name="field_poll_date")
     private LocalDate date;
+
+    @Column(columnDefinition = "TEXT")
+    @JoinColumn(name="field_intro")
+    private String info;
 }

@@ -1,13 +1,19 @@
 body.focus-active > *:not(#subchartContainer) {
-    filter: blur(2px) grayscale(20%);
+    filter: grayscale(50%);
     transition: 10s ease;
 }
 
 #chart-container {
-    margin: 50px auto;
+    flex: 1;
+    margin: 150px auto;
     width:  500px;
-    height: 500px;
+    height: 400px;
     position: relative;
+}
+
+#mainChart {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 #subchartContainer {
@@ -23,11 +29,14 @@ body.focus-active > *:not(#subchartContainer) {
     opacity: 0;
     transition: all 0.25s ease;
     pointer-events: none;
+    color: lightgreen;
+    color: lightcoral;
+
 }
 
 #subchartContainer.visible {
     opacity: 1;
-    transform: translate(100%, -65%) scale(1);
+    transform: translate(100%, -100%) scale(1);
 }
 
 .header {
@@ -41,6 +50,8 @@ body.focus-active > *:not(#subchartContainer) {
     text-align: center;
     font-family: 'Montserrat', sans-serif;
 }
+
+
 
 .logo {
     width: 200px;
@@ -81,6 +92,45 @@ hr {
    color: white;
 }
 
-.button {
-
+.footer-button:active {
+    background-color: white;
+    color: black;
 }
+
+.info-container {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 24px;
+
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.info-content {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    font-size: 12px;
+    color: #222;
+}
+
+.content-row {
+        display: flex;
+        gap: 30px;
+
+        align-items: flex-start; /* beide oben ausrichten */
+        justify-content: center;
+
+        margin: 40px auto;
+        max-width: 1200px;
+}
+
+.full-width {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.5px;
+}
+
+
+
+

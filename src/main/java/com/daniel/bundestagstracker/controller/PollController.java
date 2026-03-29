@@ -31,30 +31,22 @@ public class PollController {
        return "homepage";
     }
 
-    @GetMapping("/polls/{id}")
-    public String testing2(Model model, @PathVariable Long id) { //TODO: cut out testing endpoint due to unnecessary redundance
-       voteImportService.importVotes(id);
-       model.addAttribute("votes", voteService.getVotesByPollId(id));
-       return "impressum";
-    }
-
-    @GetMapping("/polls2/{id}")
-    public String testing3(Model model, @PathVariable Long id) { //TODO: cut out testing endpoint due to unnecessary redundance
-       model.addAttribute("overallVotes", pollAnalysisService.overallVoteResults(id));
-       model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
-       return "impressum2";
-   }
-
    @GetMapping("/chart/{id}")
-    public String testing4(Model model, @PathVariable Long id) {
+    public String testing2(Model model, @PathVariable Long id) {
        voteImportService.importVotes(id);
        model.addAttribute("poll", pollService.getPollById(id));
        model.addAttribute("overallVotes",  pollAnalysisService.overallVoteResults(id));
-       model.addAttribute("overallPercentageVotes", pollAnalysisService.overallPercentageVoteResults(id));
 
        model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
        return "testing/index";
    }
 
+   @GetMapping("/test")
+    public String testing3(Model model, @PathVariable Long id) {
+
+    model.addAttribute("poll", pollService.getPollById(id));
+
+       return "testing/test";
+   }
 
 }

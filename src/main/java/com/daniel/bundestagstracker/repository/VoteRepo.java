@@ -14,7 +14,6 @@ public interface VoteRepo extends JpaRepository<Vote, Long> { //Spring Data JPA 
     List<Vote> findByVote(String vote);
     List<Vote> findByPoll_Id(Long pollId);
 
-    Long countByPoll_Id(Long pollId);
     Long countByPoll_IdAndVote(Long pollId, String vote);
 
 }

@@ -29,7 +29,8 @@ public class PollImportService {
                         dto.getId(),
                         dto.getLabel(),
                         dto.getField_accepted(),
-                        dto.getField_poll_date()
+                        dto.getField_poll_date(),
+                        dto.getField_intro()
                 );
                 pollRepo.save(poll); //saving objects to DB
             }

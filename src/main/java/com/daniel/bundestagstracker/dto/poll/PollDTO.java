@@ -10,6 +10,7 @@ public class PollDTO {
     private String label;
     private Boolean field_accepted;
     private LocalDate field_poll_date;
+    private String field_intro;
 
 
 }

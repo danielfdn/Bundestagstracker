@@ -13,11 +13,10 @@ import java.util.stream.Collectors;
 @Service
 public class PollAnalysisService {
     private VoteRepo voteRepo;
-    private FractionRepo fractionRepo;
 
-    public PollAnalysisService(VoteRepo voteRepo, FractionRepo fractionRepo) {
+
+    public PollAnalysisService(VoteRepo voteRepo) {
         this.voteRepo = voteRepo;
-        this.fractionRepo = fractionRepo;
     }
 
     public Map<String, Long> overallVoteResults(Long pollId) {
@@ -29,21 +28,6 @@ public class PollAnalysisService {
        result.put("no_show", voteRepo.countByPoll_IdAndVote(pollId, "no_show"));
 
        return result;
-    }
-
-    public Map<String, Double> overallPercentageVoteResults(Long pollId) {
-        long totalVotes = voteRepo.countByPoll_Id(pollId);
-
-        if(totalVotes == 0){
-            return Map.of();
-        }
-
-        Map<String, Long> results = overallVoteResults(pollId);
-        Map<String, Double> percentageResults = results.entrySet().stream()
-                .collect(Collectors.toMap(
-                entry -> entry.getKey(),
-                entry -> Math.round(((double)entry.getValue() / totalVotes * 100) * 100) / 100.0));
-        return percentageResults;
     }
 
     public Map<String, Map<String, Long>> detailedVoteResults(Long pollId) {
