@@ -31,22 +31,26 @@ public class PollController {
        return "homepage";
     }
 
-   @GetMapping("/chart/{id}")
+   @GetMapping("bundestagstracker/chart/{id}")
     public String testing2(Model model, @PathVariable Long id) {
        voteImportService.importVotes(id);
        model.addAttribute("poll", pollService.getPollById(id));
        model.addAttribute("overallVotes",  pollAnalysisService.overallVoteResults(id));
 
        model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
-       return "testing/index";
+       return "finishedTemplates/charts";
    }
 
-   @GetMapping("/test")
-    public String testing3(Model model, @PathVariable Long id) {
+   @GetMapping("/bundestagstracker")
+    public String testing3(Model model) {
+       pollImportService.importPolls();
+    model.addAttribute("polls", pollService.getPolls());
+       return "finishedTemplates/bundestagstracker";
+   }
 
-    model.addAttribute("poll", pollService.getPollById(id));
-
-       return "testing/test";
+   @GetMapping("/bundestagstracker/info")
+    public String testing4() {
+       return "testing/info";
    }
 
 }

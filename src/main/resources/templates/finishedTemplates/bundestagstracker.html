@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Kalam:wght@300;400;700&family=Major+Mono+Display&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <h1 class="centering mainheader">Bundestagstracker</h1>
+    <h3 class="centering subheader">Abstimmungen auf einen Blick</h3>
+</div>
+<a th:href="@{/polls}"><img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo"></a>
+<hr>
+<!--                             TODO: Add landing page                 -->
+<div class="container">
+
+    <div class="poll poll--sideelement poll--text">
+        <span>Datum</span>
+        <span>ID</span>
+    </div>
+    <div class="poll poll--text poll--mainelement">
+        <span>Abstimmung</span>
+    </div>
+
+    <div class="poll poll--sideelement poll--text" style="width: 125px;">
+        <span>Status</span>
+    </div>
+    
+</div>
+
+<li th:each="poll : ${polls}" th:object="${poll}">
+
+    <div class="container" > <a class="link" th:href="@{bundestagstracker/chart/{id}(id=${poll.id})}">
+        <div class="poll poll--sideelement">
+    <span th:text="*{date}"></span>
+    <span th:text="*{id}"></span>
+        </div>
+            <div class="poll poll--mainelement poll--text">
+                <span th:text="*{label}"></span>
+            </div>
+   </a>
+    <div class="poll poll--text poll--sideelement"  th:style="*{accepted} ? 'background-color: seagreen;' : 'background-color: lightcoral'">
+    <span th:text="${poll.accepted} ? 'angenommen' : 'abgelehnt' "></span>
+    </div>
+    </div>
+</li>
+
+<hr>
+
+<div class="centering" style="display: flex;">
+    <button class="footer-button">info</button>
+    <button class="footer-button">sources</button>
+
+    <img class="logo--alt navbar" src="images/img_1.png" alt="Bundestagstracker Logo">
+</div>
+
+</body>
+</html>

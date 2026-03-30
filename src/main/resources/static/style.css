@@ -39,9 +39,19 @@ body.focus-active > *:not(#subchartContainer) {
     transform: translate(100%, -100%) scale(1);
 }
 
+
 .header {
-    margin-top: 50px;
-    font-family: 'Montserrat', sans-serif;
+    margin-top: 30px;
+    font-family: "Anton", sans-serif;
+}
+
+.mainheader {
+    font-size: 70px;
+}
+
+.subheader {
+    padding-top: 40px;
+    font-style: italic;
 }
 
 .centering {
@@ -51,18 +61,23 @@ body.focus-active > *:not(#subchartContainer) {
     font-family: 'Montserrat', sans-serif;
 }
 
-
-
 .logo {
     width: 200px;
     cursor: pointer;
 }
 
+.logo--alt {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+
+    width: 50px;
+    height: 50px;
+}
+
 .navbar {
-    display: flex;
     align-items: center;
-    padding: 10px 20px;
-    margin-top: -100px;
+    margin-top: -180px;
 }
 
 hr {
@@ -131,6 +146,44 @@ hr {
     padding: 0.5px;
 }
 
+.poll {
+    font-family: 'Montserrat', sans-serif;
+    width: 1000px;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-bottom: 30px;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
 
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
 
+.poll--sideelement {
+   height: 20px;
+   width: 200px;
+   justify-content: center;
+   margin-right: 20px;
+}
 
+.poll--mainelement {
+    width: 800px;
+}
+
+.poll--text {
+ font-weight: bold;
+ justify-content: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.link {
+    text-decoration: none;
+    display: flex;
+}

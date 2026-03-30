@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Abstimmung</title>
     <link rel="stylesheet" th:href="@{/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,10 +14,10 @@
 </head>
 <body>
     <div class="header">
-    <h1 class="centering">Bundestagstracker</h1>
-    <h2 class="centering">Abstimmungen auf einen Blick</h2>
+    <h1 class="centering mainheader">Bundestagstracker</h1>
+    <h3 class="centering subheader">Abstimmungen auf einen Blick</h3>
     </div>
-    <a th:href="@{/polls}"><img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo"></a>
+    <a th:href="@{/testing/bundestagstracker}"><img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo"></a>
 <hr>
 
 <div th:style="${poll.accepted} ?'background-color: darkseagreen' : 'background-color: lightcoral'"  class="centering full-width">
@@ -45,7 +45,6 @@
 
 <div class="centering">
 <button class="footer-button">info</button>
-<button class="footer-button">about</button>
 <button class="footer-button">sources</button>
 
 </div>
