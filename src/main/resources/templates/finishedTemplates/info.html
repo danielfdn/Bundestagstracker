@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Info Bundestagstracker</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <h1 class="centering mainheader">Bundestagstracker</h1>
+</div>
+<a th:href="@{/bundestagstracker}"><img th:src="@{/images/logo.png}" class="logo navbar" alt="Logo"></a>
+<hr>
+<div class="info-wrapper"> <div class="info info--text"> <h2 style="font-weight: bold">Warum Bundestagstracker?</h2>
+    <p>In einer Zeit zunehmender politischer Spannungen wird es immer wichtiger, sich nicht nur zu Wahlterminen, sondern auch darüber hinaus kritisch mit den Entscheidungen politischer Akteure auseinanderzusetzen.</p>
+    <p>Zwar gibt es eine Vielzahl an Berichterstattung – sowohl in sozialen als auch in klassischen Medien. Diese ist jedoch nicht selten durch individuelle Meinungen, Erfahrungen und Perspektiven geprägt.</p>
+    <p>Der Bundestagstracker setzt genau hier an: Er bietet einen transparenten und leicht zugänglichen Überblick über aktuelle Abstimmungen der letzten Monate sowie über das Abstimmungsverhalten der Fraktionen – sachlich, kompakt und ohne Einordnung.</p>
+    <p>Die Daten werden über eine öffentliche API bereitgestellt. Genauere Informationen unter <a href="https://www.abgeordnetenwatch.de/api">Sources</a></p>
+</div>
+
+    <div class="info info--text">
+
+        <div style="align-self: start">
+    <h2 style="font-weight: bold">About</h2>
+    <p>Hinter dem Projekt "Bundestagstracker" steckt Daniel Fandin.</p>
+    <p> Ich bin ein 20 jähriger Student und Entwickler, der mit seinen Projekten versucht einen Mehrwert zu leisten und seine eigenen Fähigkeiten weiterzunetwickeln.</p>
+
+            <ul class="unstyled-list">
+                <li style="font-weight: bold">Socials</li>
+        <li><a href="https://www.linkedin.com/in/daniel-fandin-b022343b0/">LinkedIn</a></li>
+        <li><a href="https://github.com/danielfdn">Github</a></li>
+        <li><a href="http://www.instagram.com/uuserdaniel">Instagram</a></li>
+         </ul>
+        </div>
+        <img class="creator-picture" src="/images/daniel.png" alt="Daniel Fandin">
+    </div>
+</div>
+</div>
+
+<div class="footer">
+    <div class="centering footer" style="display: flex;">
+        <a th:href="@{/bundestagstracker/info}"><button class="footer-button" onclick="">info</button></a>
+        <a href="https://www.abgeordnetenwatch.de/api"><button class="footer-button" onclick="">sources</button></a>
+        <img class="logo--alt navbar" th:src="@{/images/logo.png}" alt="Bundestagstracker Logo">
+    </div>
+</div>
+</body>
+</html>

@@ -12,27 +12,18 @@ public class PollController {
     private final PollService pollService;
     private final PollImportService pollImportService;
     private final VoteImportService voteImportService;
-    private final VoteService voteService;
     private final PollAnalysisService pollAnalysisService;
 
-   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, VoteService voteService, PollAnalysisService pollAnalysisService)
+   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, PollAnalysisService pollAnalysisService)
    {
         this.pollService = pollService;
         this.pollImportService = pollImportService;
         this.voteImportService = voteImportService;
-        this.voteService = voteService;
         this.pollAnalysisService = pollAnalysisService;
    }
 
-@GetMapping("/polls")
-    public String testing(Model model) {
-       pollImportService.importPolls();
-    model.addAttribute("polls", pollService.getPolls());
-       return "homepage";
-    }
-
    @GetMapping("bundestagstracker/chart/{id}")
-    public String testing2(Model model, @PathVariable Long id) {
+    public String charts(Model model, @PathVariable Long id) {
        voteImportService.importVotes(id);
        model.addAttribute("poll", pollService.getPollById(id));
        model.addAttribute("overallVotes",  pollAnalysisService.overallVoteResults(id));
@@ -42,15 +33,14 @@ public class PollController {
    }
 
    @GetMapping("/bundestagstracker")
-    public String testing3(Model model) {
+    public String homepage(Model model) {
        pollImportService.importPolls();
     model.addAttribute("polls", pollService.getPolls());
        return "finishedTemplates/bundestagstracker";
    }
 
    @GetMapping("/bundestagstracker/info")
-    public String testing4() {
-       return "testing/info";
+    public String info() {
+       return "finishedTemplates/info";
    }
-
 }

@@ -6,8 +6,6 @@ import com.daniel.bundestagstracker.entity.Poll;
 import com.daniel.bundestagstracker.repository.PollRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service //calls poll API and imports them into database
 public class PollImportService {
 

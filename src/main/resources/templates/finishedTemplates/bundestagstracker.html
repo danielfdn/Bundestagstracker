@@ -5,25 +5,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Home Bundestagstracker</title>
     <link rel="stylesheet" th:href="@{/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Kalam:wght@300;400;700&family=Major+Mono+Display&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="header">
     <h1 class="centering mainheader">Bundestagstracker</h1>
-    <h3 class="centering subheader">Abstimmungen auf einen Blick</h3>
 </div>
-<a th:href="@{/polls}"><img th:src="@{/images/img_1.png}" class="logo navbar" alt="Logo"></a>
+<a th:href="@{/bundestagstracker}"><img th:src="@{/images/logo.png}" class="logo navbar" alt="Logo"></a>
 <hr>
-<!--                             TODO: Add landing page                 -->
-<div class="container">
+<div class="landing-page" >
 
+<h1 class="landing-page--header">Dein Bundestagstracker.</h1>
+    <div class="landing-page--subheader">
+        <h4>Erhalte einen klaren Überblick über die aktuellen Entscheidungen des Bundestags.</h4>
+        <h4>Schnell erfassbar, transparent dargestellt und einfach zugänglich.</h4>
+    </div>
+</div>
+<div>
+<div class="container">
     <div class="poll poll--sideelement poll--text">
         <span>Datum</span>
         <span>ID</span>
@@ -35,7 +38,6 @@
     <div class="poll poll--sideelement poll--text" style="width: 125px;">
         <span>Status</span>
     </div>
-    
 </div>
 
 <li th:each="poll : ${polls}" th:object="${poll}">
@@ -49,20 +51,19 @@
                 <span th:text="*{label}"></span>
             </div>
    </a>
-    <div class="poll poll--text poll--sideelement"  th:style="*{accepted} ? 'background-color: seagreen;' : 'background-color: lightcoral'">
+    <div class="poll poll--text poll--sideelement"  th:style="*{accepted} ? 'background-color: darkseagreen;' : 'background-color: lightcoral'">
     <span th:text="${poll.accepted} ? 'angenommen' : 'abgelehnt' "></span>
     </div>
     </div>
 </li>
-
-<hr>
-
-<div class="centering" style="display: flex;">
-    <button class="footer-button">info</button>
-    <button class="footer-button">sources</button>
-
-    <img class="logo--alt navbar" src="images/img_1.png" alt="Bundestagstracker Logo">
 </div>
-
+<div class="footer">
+    <div class="centering footer" style="display: flex;">
+    <a th:href="@{bundestagstracker/info}"><button class="footer-button" onclick="">info</button></a>
+    <a href="https://www.abgeordnetenwatch.de/api"><button class="footer-button" onclick="">sources</button></a>
+    <img th:src="@{/images/logo.png}" class="logo--alt navbar" alt="Bundestagstracker Logo">
+    </div>
+</div>
 </body>
 </html>
+
