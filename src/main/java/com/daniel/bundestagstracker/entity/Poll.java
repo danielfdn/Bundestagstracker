@@ -5,15 +5,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity //Hibernate Annotation for PostgreSQL
 public class Poll {
 
@@ -28,4 +22,67 @@ public class Poll {
     @Column(columnDefinition = "TEXT")
     @JoinColumn(name="field_intro")
     private String info;
+
+    public Poll() {}
+
+    public Poll(Long id, String label, Boolean accepted, LocalDate date, String info) {
+        this.id = id;
+        this.label = label;
+        this.accepted = accepted;
+        this.date = date;
+        this.info = info;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", label='" + label + '\'' +
+                ", accepted=" + accepted +
+                ", date=" + date +
+                ", info='" + info + '\'' +
+                '}';
+    }
 }
+
+

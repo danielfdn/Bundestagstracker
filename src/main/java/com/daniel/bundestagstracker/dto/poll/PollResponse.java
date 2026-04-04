@@ -3,6 +3,7 @@ package com.daniel.bundestagstracker.dto.poll;
 import java.util.List;
 
 public class PollResponse {
+
     private List<PollDTO> data;
 
     public List<PollDTO> getData() {

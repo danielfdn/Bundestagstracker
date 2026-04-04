@@ -11,5 +11,4 @@ public interface FractionRepo extends JpaRepository<Fraction, Long> {
     Optional<Fraction> findByPartyName(String name); //Spring automatically generates SQL Query
 
     List<Fraction> findAll();
-
 }

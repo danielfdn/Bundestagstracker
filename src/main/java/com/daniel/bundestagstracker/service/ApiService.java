@@ -12,8 +12,5 @@ public class ApiService {
         this.restTemplate = restTemplate;
     }
 
-    public <T> T fetch(String url, Class<T> type) {
-        return restTemplate.getForObject(url, type);
-    }
-
+    public <T> T fetch(String url, Class<T> type) {return restTemplate.getForObject(url, type);}
 }

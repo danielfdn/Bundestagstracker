@@ -15,10 +15,10 @@ import java.util.List;
 
 @Service //Calls vote-API depending on poll_id and imports them into database
 public class VoteImportService {
-    private PollRepo pollRepo;
-    private ApiService apiService;
-    private VoteRepo voteRepo;
-    private FractionRepo fractionRepo;
+    private final PollRepo pollRepo;
+    private final ApiService apiService;
+    private final VoteRepo voteRepo;
+    private final FractionRepo fractionRepo;
 
     private final String baseUrl = "https://www.abgeordnetenwatch.de/api/v2/polls/{id}?related_data=votes";
 
@@ -34,11 +34,10 @@ public class VoteImportService {
         if(voteRepo.existsById(pollId)){
             return;
         }
-
            String url = baseUrl.replace("{id}", pollId.toString());
            VoteResponse response = apiService.fetch(url, VoteResponse.class);
 
-           List<VoteDTO> voteDtos = response.getVoteData().getRelatedVoteData().getVotes();
+           List<VoteDTO> voteDtos = response.getData().getRelatedVoteData().getVotes();
 
             if(voteDtos == null || voteDtos.isEmpty()){
                 return;
@@ -55,7 +54,7 @@ public class VoteImportService {
                     .toList(); // -> remapped Object gets added to List votes
 
         voteRepo.saveAll(votes);
-        }
+    }
 
     private Fraction getOrCreateFraction(String name) {
 
@@ -80,4 +79,4 @@ public class VoteImportService {
                     return fractionRepo.save(f);
                 });
     }
-    }
+}

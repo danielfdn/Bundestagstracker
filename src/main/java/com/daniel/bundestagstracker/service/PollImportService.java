@@ -26,11 +26,11 @@ public class PollImportService {
                 Poll poll = new Poll(
                         dto.getId(),
                         dto.getLabel(),
-                        dto.getField_accepted(),
-                        dto.getField_poll_date(),
-                        dto.getField_intro()
+                        dto.getFieldAccepted(),
+                        dto.getFieldPollDate(),
+                        dto.getFieldIntro()
                 );
                 pollRepo.save(poll); //saving objects to DB
             }
+        }
     }
-}

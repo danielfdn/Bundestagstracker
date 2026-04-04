@@ -12,23 +12,23 @@ public class PollController {
     private final PollService pollService;
     private final PollImportService pollImportService;
     private final VoteImportService voteImportService;
-    private final PollAnalysisService pollAnalysisService;
+    private final VoteService voteService;
 
-   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, PollAnalysisService pollAnalysisService)
+   public PollController(PollService pollService, PollImportService pollImportService, VoteImportService voteImportService, VoteService voteService)
    {
         this.pollService = pollService;
         this.pollImportService = pollImportService;
         this.voteImportService = voteImportService;
-        this.pollAnalysisService = pollAnalysisService;
+        this.voteService = voteService;
    }
 
    @GetMapping("bundestagstracker/chart/{id}")
     public String charts(Model model, @PathVariable Long id) {
        voteImportService.importVotes(id);
        model.addAttribute("poll", pollService.getPollById(id));
-       model.addAttribute("overallVotes",  pollAnalysisService.overallVoteResults(id));
+       model.addAttribute("overallVotes",  voteService.overallVoteResults(id));
 
-       model.addAttribute("detailedVotes", pollAnalysisService.detailedVoteResults(id));
+       model.addAttribute("detailedVotes", voteService.detailedVoteResults(id));
        return "finishedTemplates/charts";
    }
 

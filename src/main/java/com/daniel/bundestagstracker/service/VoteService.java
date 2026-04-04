@@ -1,7 +1,6 @@
 package com.daniel.bundestagstracker.service;
 
 import com.daniel.bundestagstracker.entity.Vote;
-import com.daniel.bundestagstracker.repository.FractionRepo;
 import com.daniel.bundestagstracker.repository.VoteRepo;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PollAnalysisService {
-    private VoteRepo voteRepo;
+public class VoteService {
+    private final VoteRepo voteRepo;
 
-
-    public PollAnalysisService(VoteRepo voteRepo) {
+    public VoteService(VoteRepo voteRepo) {
         this.voteRepo = voteRepo;
     }
 
@@ -49,9 +47,7 @@ public class PollAnalysisService {
             voteMap.put(partyName,
                     voteMap.getOrDefault(partyName, 0L) + 1);
         }
-
         return detailedResult;
     }
-
 }
 

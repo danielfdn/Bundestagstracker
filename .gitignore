@@ -3,7 +3,9 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-application.properties
+
+#SpringBoot Sensitive Content
+src/main/resources/application.properties
 
 
 ### STS ###
