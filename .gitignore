@@ -6,6 +6,12 @@ target/
 
 #SpringBoot Sensitive Content
 src/main/resources/application.properties
+src/main/resources/application-local.properties
+
+# Environment Variables (secrets)
+.env
+.env.local
+.env.*.local
 
 
 ### STS ###

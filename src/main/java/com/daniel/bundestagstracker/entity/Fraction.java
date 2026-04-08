@@ -2,7 +2,7 @@ package com.daniel.bundestagstracker.entity;
 
 import jakarta.persistence.*;
 
-
+@Table(name="fraction")
 @Entity
 public class Fraction {
 
